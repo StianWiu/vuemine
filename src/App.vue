@@ -1,18 +1,30 @@
 <template>
-  <NavTopBar class="NavTopBar" />
-  <NavSideBar class="NavSideBar" />
-  <div class="component-container"></div>
+  <div v-if="this.getWidth() > 1250">
+    <NavTopBar class="NavTopBar" />
+    <NavSideBar class="NavSideBar" />
+    <div class="component-container"></div>
+  </div>
+  <div v-else>
+    <WorkInProgress />
+  </div>
 </template>
 
 <script>
 import NavSideBar from "./components/NavSideBar.vue";
 import NavTopBar from "./components/NavTopBar.vue";
+import WorkInProgress from "./components/WorkInProgress.vue";
 
 export default {
   name: "App",
   components: {
     NavSideBar,
     NavTopBar,
+    WorkInProgress,
+  },
+  methods: {
+    getWidth() {
+      return window.innerWidth;
+    },
   },
 };
 </script>
@@ -66,5 +78,9 @@ body {
 
   background-color: #202431;
   border-radius: 20px;
+}
+
+.WorkInProgress {
+  height: 100vh;
 }
 </style>
