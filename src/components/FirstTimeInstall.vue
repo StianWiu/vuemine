@@ -22,9 +22,13 @@ export default {
           ["timeCreated"]: new Date(),
           ["serverId"]: this.generateRandomId(),
         },
-      }).then(async () => {
+      }).then(async (result) => {
         // Make vue rerender
-        window.location.reload();
+        if (result.data === "true") {
+          window.location.reload();
+        } else {
+          console.log(result.data);
+        }
       });
     },
     generateRandomId() {

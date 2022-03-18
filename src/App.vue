@@ -34,25 +34,17 @@ export default {
     };
   },
   async created() {
-    axios({
+    await axios({
       method: "get",
       url: `http://localhost:3330/api/firstinstall`,
     }).then(async (response) => {
+      console.log(response.data);
       if (response.data === true) {
         this.serverExists = false;
       } else {
         this.serverExists = true;
       }
     });
-    if (this.serverExists === false) {
-      console.log("test");
-      await axios({
-        method: "get",
-        url: `http://localhost:3330/api/get/servers`,
-      }).then(async (response) => {
-        console.log(response.data);
-      });
-    }
   },
   methods: {
     getWidth() {
