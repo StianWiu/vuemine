@@ -1,8 +1,13 @@
 <template>
   <div v-if="this.getWidth() > 1250">
-    <NavTopBar class="NavTopBar" />
-    <NavSideBar class="NavSideBar" />
-    <div class="component-container"></div>
+    <div v-if="this.serverExists === true">
+      <NavTopBar class="NavTopBar" />
+      <NavSideBar class="NavSideBar" />
+      <div class="component-container"></div>
+    </div>
+    <div v-else>
+      <FirstTimeInstall />
+    </div>
   </div>
   <div v-else>
     <WorkInProgress />
@@ -13,13 +18,41 @@
 import NavSideBar from "./components/NavSideBar.vue";
 import NavTopBar from "./components/NavTopBar.vue";
 import WorkInProgress from "./components/WorkInProgress.vue";
-
+import FirstTimeInstall from "./components/FirstTimeInstall.vue";
+import axios from "axios";
 export default {
   name: "App",
   components: {
     NavSideBar,
     NavTopBar,
     WorkInProgress,
+    FirstTimeInstall,
+  },
+  data() {
+    return {
+      serverExists: false,
+    };
+  },
+  async created() {
+    axios({
+      method: "get",
+      url: `http://localhost:3330/api/firstinstall`,
+    }).then(async (response) => {
+      if (response.data === true) {
+        this.serverExists = false;
+      } else {
+        this.serverExists = true;
+      }
+    });
+    if (this.serverExists === false) {
+      console.log("test");
+      await axios({
+        method: "get",
+        url: `http://localhost:3330/api/get/servers`,
+      }).then(async (response) => {
+        console.log(response.data);
+      });
+    }
   },
   methods: {
     getWidth() {

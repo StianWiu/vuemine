@@ -36,7 +36,7 @@ export default {
         />
         About
       </a>
-      <a>
+      <a @click="this.sendPostRequest()">
         <fa
           icon="address-card"
           style="padding-right: 20px; width: 30px; height: 20px"
